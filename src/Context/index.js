@@ -1,3 +1,7 @@
 import { createContext } from 'react'
 
-export const MainContext = createContext({})
+const MainContext = createContext({
+    videos: []
+})
+
+export default MainContext;

@@ -1,16 +1,12 @@
 import React from 'react'
 
-function Button(props) {
+export default React.memo(props => {
     return (
         <button
-            className={props.className}
-            onClick={props.onClick 
-                ? 
-                props.onClick : e => e.preventDefault()}
+           {...props}
         >
             {props.text}
         </button>
     )
-}
+})
 
-export default Button

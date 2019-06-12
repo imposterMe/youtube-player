@@ -1,32 +1,42 @@
 import React, { useState, useContext } from 'react'
-import Input from './Input'
-import Button from './Button'
-import { MainContext } from '../Context'
+import Input from '../Components/Input'
+import Button from '../Components/Button'
+import MainContext from '../Context'
+import { fetchList } from '../Api/Youtube/V3'
 
-function Search() {
+export default React.memo(() => {
 
     const [keyword, setKeyword] = useState("")
-    const { dispatch } = useContext(MainContext)
+    const { state, dispatch } = useContext(MainContext)
 
     const inputHandler = e => {
         setKeyword(e.target.value)
     }
 
-    const buttonHandler = e => {
+    const formSubmitHandler = async e => {
         e.preventDefault()
+        if (!keyword)
+            return false;
+
+        const videos = await fetchList(keyword);
+
         const payload = {
-            keyword
+            videos
         }
+
         dispatch({ type: 'FETCH_VIDEOS', payload })
+
     }
 
     return (
-        <div id="searchBar">
-            <div className="row">
-                <div className="col-md-10">
+        <div className="row" id="searchBar">
+            <form onSubmit={formSubmitHandler}>
+               <div className='row'>
+               <div className="col-md-10">
                     <Input
                         type="text"
                         name="search"
+                        className="form-control"
                         placeholder="Type Keyword"
                         onKeyUp={inputHandler}
                     />
@@ -35,12 +45,10 @@ function Search() {
                     <Button
                         className="btn btn-success"
                         text="Search"
-                        onClick={buttonHandler}
                     />
                 </div>
-            </div>
+               </div>
+            </form>
         </div>
     )
-}
-
-export default Search;
+})

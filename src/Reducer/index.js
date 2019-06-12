@@ -1,11 +1,11 @@
-export const Reducer = (videos = [], action) => {
+export default function Reducer (state, action) {
+    const { payload } = action
     switch (action.type) {
         case "FETCH_VIDEOS":
-            const { payload } = action
-            console.log(payload.keyword)
-            return videos;
+            const { videos } = payload
+            state.videos = videos;
+            return {...state};
         default:
-            return videos
-
+            return state
     }
 }
